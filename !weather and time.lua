@@ -96,8 +96,8 @@ function onload()
   sampRegisterChatCommand("st", st)
   sampRegisterChatCommand("setweather", cmdSetCustomWeather)
   sampRegisterChatCommand("timelapse", function(param) lua_thread.create(timelapse, param) end)
-  if data.options.startmessage == 1 then sampAddChatMessage(('Weather and Time v '..thisScript().version..' запущен.'), color) end
-  if data.options.startmessage == 1 then sampAddChatMessage(('Подробнее - /weather или /wat. Отключить это сообщение можно в настройках.'), color) end
+  if data.options.startmessage == 1 then sampAddChatMessage(('Weather and Time v '..thisScript().version..' started.'), color) end
+  if data.options.startmessage == 1 then sampAddChatMessage(('More details - /weather or /wat. You can disable this message in the settings.'), color) end
   weatherrandom12 = lua_thread.create_suspended(weatherrandom1)
   weatherrandom12:terminate()
   if data.options.weatherrandom == true then
@@ -143,7 +143,7 @@ end
 ---------------------------------SETWEATHER-------------------------------------
 --ДИАЛОГ /SETWEATHER
 function cmdChangeWeatherUnstableDialog()
-  sampShowDialog(987, "Изменить погоду", string.format("Введите ID погоды"), "Выбрать", "Закрыть", 1)
+  sampShowDialog(987, "Change Weather", string.format("Enter Weather ID"), "Select", "Close", 1)
   while sampIsDialogActive() do wait(100) end
   local result, button, list, input = sampHasDialogRespond(987)
   if button == 1 then
@@ -168,7 +168,7 @@ end
 -------------------------------------SW-----------------------------------------
 --ДИАЛОГ /SW
 function cmdChangeWeatherDialog()
-  sampShowDialog(838, "/sw - изменить погоду: ", "ID\tОписание\n00\tСтандартная погода\n01\tСтандартная погода\n02\tСтандартная погода\n03\tСтандартная погода\n04\tСтандартная погода\n05\tСтандартная погода\n06\tСтандартная погода\n07\tСтандартная погода\n08\tДождь, гроза\n09\tОблачная, туманная погода\n10\tЧистое небо\n11\tОбжигающая жара\n12\tТусклая погода\n13\tТусклая погода\n14\tТусклая погода\n15\tТусклая, бесцветная погода\n16\tТусклая, дождливая\n17\tОбжигающая жара\n18\tОбжигающая жара\n19\tПесчаная буря\n20\tТуманная\n21\tОчень тёмная, пурпурная\n22\tОчень тёмная, зеленая", "Выбрать", "Закрыть", 5)
+  sampShowDialog(838, "/sw - change weather: ", "ID\tDescription\n00\tStandard weather\n01\tStandard weather\n02\tStandard weather\n03\tStandard weather\n04\tStandard weather\n05\tStandard weather\n06\tStandard weather\n07\tStandard weather\n08\tRain, thunderstorm\n09\tCloudy, foggy weather\n10\tClear sky\n11\tScorching heat\n12\tDull weather\n13\tDull weather\n14\tDull weather\n15\tDull, colorless weather\n16\tDull, rainy\n17\tScorching heat\n18\tScorching heat\n19\tSandstorm\n20\tFoggy\n21\tVery dark, purple\n22\tVery dark, green", "Select", "Close", 5)
   while sampIsDialogActive() do wait(0) end
   sampCloseCurrentDialogWithButton(0)
   local resultMain, buttonMain, typ, tryyy = sampHasDialogRespond(838)
@@ -206,7 +206,7 @@ function timesync()
 end
 --ДИАЛОГ /SETWEATHER
 function stdialog()
-  sampShowDialog(988, "Изменить время", string.format("Введите час [1-23]"), "Выбрать", "Закрыть", 1)
+  sampShowDialog(988, "Change Time", string.format("Enter hour [1-23]"), "Select", "Close", 1)
   while sampIsDialogActive() do wait(100) end
   local result, button, list, input = sampHasDialogRespond(988)
   if button == 1 then
@@ -236,7 +236,7 @@ function split(s, delimiter)
 end
 function timelapse(str)
   if str == "" then
-    sampAddChatMessage(prefix.."Использование: /timelapse [час начала] [сколько часов крутить] [задержка смены часа (мс)] [задержка перед стартом]", - 1)
+    sampAddChatMessage(prefix.."Usage: /timelapse [start hour] [how many hours to spin] [hour change delay (ms)] [delay before start]", - 1)
   else
 		restore_set1 = data.options.timebycomp1
 		restore_set2 = time
@@ -253,7 +253,7 @@ function timelapse(str)
       delay2 = tonumber(tab[4])
     end
     if start == nil or finish == nil or delay1 == nil or delay2 == nil or start < 0 or start >= 24 or finish < 1 or delay1 < 0 or delay2 < 0 then
-      sampAddChatMessage(prefix.."Ошибка ввода. Использование: /timelapse [час начала] [сколько часов крутить] [задержка смены часа (мс)] [задержка перед стартом]", color)
+      sampAddChatMessage(prefix.."Input error. Usage: /timelapse [start hour] [how many hours to spin] [hour change delay (ms)] [delay before start]", color)
       return
     end
     wait(delay2)
@@ -285,20 +285,20 @@ end
 --MENU
 function menu()
   menuupdate()
-  submenus_show(mod_submenus_sa, '{348cb2}Weather & Time v'..thisScript().version..'', 'Выбрать', 'Закрыть', 'Назад')
+  submenus_show(mod_submenus_sa, '{348cb2}Weather & Time v'..thisScript().version..'', 'Select', 'Close', 'Back')
 end
 --менюшка
 function menuupdate()
   mod_submenus_sa = {
     {
-      title = 'Информация о скрипте',
+      title = 'Script Information',
       onclick = function()
         wait(100)
         cmdScriptInfo()
       end
     },
     {
-      title = 'Связаться с автором (все баги сюда)',
+      title = 'Contact the author (all bugs here)',
       onclick = function()
         os.execute('explorer "http://qrlk.me/sampcontact"')
       end
@@ -307,10 +307,10 @@ function menuupdate()
       title = ' '
     },
     {
-      title = '{AAAAAA}Функции погоды'
+      title = '{AAAAAA}Weather Functions'
     },
     {
-      title = string.format("Случайный выбор погоды: %s", data.options.weatherrandom),
+      title = string.format("Random weather selection: %s", data.options.weatherrandom),
       onclick = function()
         cmdWeather1Toggle()
         menuupdate()
@@ -318,21 +318,21 @@ function menuupdate()
       end
     },
     {
-      title = 'Изменить погоду (стабильная)',
+      title = 'Change Weather (stable)',
       onclick = function()
         wait(100)
         cmdChangeWeatherDialog()
       end
     },
     {
-      title = 'Изменить погоду (нестабильная)',
+      title = 'Change Weather (unstable)',
       onclick = function()
         wait(100)
         cmdSetCustomWeather()
       end
     },
     {
-      title = 'Открыть галерею ID погоды',
+      title = 'Open Weather ID Gallery',
       onclick = function()
         cmdHelpWeather()
       end
@@ -341,10 +341,10 @@ function menuupdate()
       title = ' '
     },
     {
-      title = '{AAAAAA}Функции времени'
+      title = '{AAAAAA}Time Functions'
     },
     {
-      title = string.format("Синхронизация лок. времени: %s", data.options.timebycomp1),
+      title = string.format("Sync local time: %s", data.options.timebycomp1),
       onclick = function()
         cmdTimeNot()
         menuupdate()
@@ -352,7 +352,7 @@ function menuupdate()
       end
     },
     {
-      title = 'Изменить время вручную',
+      title = 'Change Time Manually',
       onclick = function()
         stdialog()
       end
@@ -367,19 +367,19 @@ function menuupdate()
       title = ' '
     },
     {
-      title = '{AAAAAA}Настройки'
+      title = '{AAAAAA}Settings'
     },
     {
-      title = 'Настройки скрипта',
+      title = 'Script Settings',
       submenu = {
         {
-          title = 'Включить/выключить уведомление при запуске',
+          title = 'Enable/disable startup notification',
           onclick = function()
             cmdWeatherInform()
           end
         },
         {
-          title = 'Включить/выключить автообновление',
+          title = 'Enable/disable auto-update',
           onclick = function()
             cmdWatUpdate()
           end
@@ -390,29 +390,29 @@ function menuupdate()
       title = ' '
     },
     {
-      title = '{AAAAAA}Обновления'
+      title = '{AAAAAA}Updates'
     },
     {
-      title = 'Подписывайтесь на группу ВКонтакте!',
+      title = 'Subscribe to the VKontakte group!',
       onclick = function()
         os.execute('explorer "http://qrlk.me/sampvk"')
       end
     },
     {
-      title = 'Открыть страницу скрипта',
+      title = 'Open script page',
       onclick = function()
         os.execute('explorer "http://qrlk.me/samp/wat"')
       end
     },
     {
-      title = 'История обновлений',
+      title = 'Update History',
       onclick = function()
         lua_thread.create(
           function()
             if changelogurl == nil then
               changelogurl = "http://qrlk.me/changelog/wat"
             end
-            sampShowDialog(222228, "{ff0000}Информация об обновлении", "{ffffff}"..thisScript().name.." {ffe600}собирается открыть свой changelog для вас.\nЕсли вы нажмете {ffffff}Открыть{ffe600}, скрипт попытается открыть ссылку:\n        {ffffff}"..changelogurl.."\n{ffe600}Если ваша игра крашнется, вы можете открыть эту ссылку сами.", "Открыть", "Отменить")
+            sampShowDialog(222228, "{ff0000}Update Information", "{ffffff}"..thisScript().name.." {ffe600}is about to open its changelog for you.\nIf you click {ffffff}Open{ffe600}, the script will try to open the link:\n        {ffffff}"..changelogurl.."\n{ffe600}If your game crashes, you can open this link yourself.", "Open", "Cancel")
             while sampIsDialogActive() do wait(100) end
             local result, button, list, input = sampHasDialogRespond(222228)
             if button == 1 then
@@ -426,7 +426,7 @@ function menuupdate()
 end
 --контент
 function cmdScriptInfo()
-  sampShowDialog(2342, "{348cb2}Weather and Time. Автор: qrlk.", "{ffcc00}Для чего этот скрипт?\n{ffffff}Скрипт предоставляет кучу возможностей для управления погодой и временем SA:MP.\nНаступило будущее: теперь можно рендерить дождь 2004 года без лагов.\nВыделяется среди прочих уникальными функциями, удобством и настройками.\n{AAAAAA}Функции погоды:\n{348cb2}Случайный выбор погоды: {ffffff}ИИ случайно меняет погоду каждые 3-10 минут.\n{348cb2}Изменить погоду (стабильная): {ffffff}изменение погоды на стабильную (0-22).\n{348cb2}Изменить погоду (нестабильная): {ffffff}изменение погоды на нестабильную (любой id).\n{348cb2}Открыть галерею ID погоды: {ffffff}открыть в браузере галерею с id'ами погоды.\n{AAAAAA}Функции времени:\n{348cb2}Синхронизация локального времени: {ffffff}функция меняет время игры на время компьютера.\n{348cb2}Изменить время вручную: {ffffff}изменение времени на заданный час.\n{ffcc00}Доступные команды:\n{00ccff}/weather (/wat){ffffff} - меню скрипта.\n{00ccff}/weatherlog {ffffff}- changelog скрипта.\n{AAAAAA}Функции времени:\n{00ccff}/st [0-23] {ffffff}- изменить время.\n{00ccff}/timelapse [0-23] [0-23] [0+] [0+] {ffffff}- timelapse.\n{AAAAAA}Функции погоды:\n{00ccff}/sw {ffffff}- изменить погоду через диалоговое окно.\n{00ccff}/sw [0-22] {ffffff}- изменить погоду по id (стабильная погода).\n{00ccff}/setweather {ffffff}- изменить погоду через диалоговое окно (нестабильная погода).\n{00ccff}/setweather [любой id] {ffffff}- изменить погоду по id (нестабильная погода).\n{00ccff}Клавиша \"End\"{ffffff} - устанавливает случайную стабильную погоду. Совместимо с ИИ-режимом.", "Лады")
+  sampShowDialog(2342, "{348cb2}Weather and Time. Author: qrlk.", "{ffcc00}What is this script for?\n{ffffff}The script provides many features for managing weather and time in SA:MP.\nThe future has arrived: now you can render 2004 rain without lag.\nIt stands out among others with unique features, convenience, and settings.\n{AAAAAA}Weather Functions:\n{348cb2}Random weather selection: {ffffff}AI randomly changes the weather every 3-10 minutes.\n{348cb2}Change Weather (stable): {ffffff}change the weather to stable (0-22).\n{348cb2}Change Weather (unstable): {ffffff}change the weather to unstable (any id).\n{348cb2}Open Weather ID Gallery: {ffffff}open the weather ID gallery in the browser.\n{AAAAAA}Time Functions:\n{348cb2}Sync local time: {ffffff}the function changes the game time to the computer time.\n{348cb2}Change time manually: {ffffff}change the time to the specified hour.\n{ffcc00}Available commands:\n{00ccff}/weather (/wat){ffffff} - script menu.\n{00ccff}/weatherlog {ffffff}- script changelog.\n{AAAAAA}Time Functions:\n{00ccff}/st [0-23] {ffffff}- change time.\n{00ccff}/timelapse [0-23] [0-23] [0+] [0+] {ffffff}- timelapse.\n{AAAAAA}Weather Functions:\n{00ccff}/sw {ffffff}- change weather through dialog window.\n{00ccff}/sw [0-22] {ffffff}- change weather by id (stable weather).\n{00ccff}/setweather {ffffff}- change weather through dialog window (unstable weather).\n{00ccff}/setweather [any id] {ffffff}- change weather by id (unstable weather).\n{00ccff}Key \"End\"{ffffff} - sets random stable weather. Compatible with AI mode.", "Okay")
 end
 --функция отвечает за удобные менюшки, спасибо фипу
 function submenus_show(menu, caption, select_button, close_button, back_button)
@@ -477,33 +477,33 @@ function cmdHelpWeather()
 end
 function cmdWeather1Toggle()
   if data.options.weatherrandom == true then
-    data.options.weatherrandom = false sampAddChatMessage(('[WAT]: Алгоритм изменения погоды деактивирован'), color)
+    data.options.weatherrandom = false sampAddChatMessage(('[WAT]: Weather change algorithm deactivated'), color)
   else
-    data.options.weatherrandom = true sampAddChatMessage(('[WAT]: Алгоритм изменения погоды активирован'), color)
+    data.options.weatherrandom = true sampAddChatMessage(('[WAT]: Weather change algorithm activated'), color)
   end
   inicfg.save(data, "weather and time")
 end
 function cmdWeatherInform()
   if data.options.startmessage == 1 then
-    data.options.startmessage = 0 sampAddChatMessage(('[WAT]: Уведомление активации Weather and Time при запуске игры отключено'), color)
+    data.options.startmessage = 0 sampAddChatMessage(('[WAT]: Weather and Time startup notification disabled'), color)
   else
-    data.options.startmessage = 1 sampAddChatMessage(('[WAT]: Уведомление активации Weather and Time при запуске игры включено'), color)
+    data.options.startmessage = 1 sampAddChatMessage(('[WAT]: Weather and Time startup notification enabled'), color)
   end
   inicfg.save(data, "weather and time")
 end
 function cmdTimeNot()
   if data.options.timebycomp1 == true then
-    data.options.timebycomp1 = false sampAddChatMessage(('[WAT]: Синхронизация локального времени отключена'), color)
+    data.options.timebycomp1 = false sampAddChatMessage(('[WAT]: Local time synchronization disabled'), color)
   else
-    data.options.timebycomp1 = true sampAddChatMessage(('[WAT]: Синхронизация локального времени включена'), color)
+    data.options.timebycomp1 = true sampAddChatMessage(('[WAT]: Local time synchronization enabled'), color)
   end
   inicfg.save(data, "weather and time")
 end
 function cmdWatUpdate()
   if data.options.autoupdate == 1 then
-    data.options.autoupdate = 0 sampAddChatMessage(('[WAT]: Автообновление WAT выключено'), color)
+    data.options.autoupdate = 0 sampAddChatMessage(('[WAT]: WAT auto-update disabled'), color)
   else
-    data.options.autoupdate = 1 sampAddChatMessage(('[WAT]: Автообновление WAT включено'), color)
+    data.options.autoupdate = 1 sampAddChatMessage(('[WAT]: WAT auto-update enabled'), color)
   end
   inicfg.save(data, "weather and time")
 end
